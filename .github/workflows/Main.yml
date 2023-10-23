@@ -1,0 +1,29 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - Develop  # Change this to your default branch
+  pull_request:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install GitLeaks
+      run: |
+        wget -O gitleaks https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/gitleaks-linux-amd64
+        chmod +x gitleaks
+        sudo mv gitleaks /usr/local/bin/
+
+    - name: Run GitLeaks Secret Scan
+      run: |
+        gitleaks --path=. --verbose --redact
+      env:
+        GL_CONFIG: .gitleaks.toml  # Optional: Use a GitLeaks configuration file
+
+    # Add additional steps here if needed, such as sending notifications or taking actions based on the scan results.
