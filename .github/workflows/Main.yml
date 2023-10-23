@@ -5,6 +5,8 @@ on:
     branches:
       - Develop  # Change this to your default branch
   pull_request:
+      branches:
+      - Develop  # Change this to your default branch
 
 jobs:
   scan:
@@ -17,12 +19,13 @@ jobs:
     - name: Install GitLeaks
       run: |
         wget -O gitleaks https://github.com/gitleaks/gitleaks/releases/download/v8.18.0/gitleaks_8.18.0_linux_x64.tar.gz
+        tar -xvzf gitleaks.tar.gz
         chmod +x gitleaks
         sudo mv gitleaks /usr/local/bin/
 
     - name: Run GitLeaks Secret Scan
       run: |
-        gitleaks --path=. --verbose --redact
+        gitleaks detect --redact
       env:
         GL_CONFIG: .gitleaks.toml  # Optional: Use a GitLeaks configuration file
 
