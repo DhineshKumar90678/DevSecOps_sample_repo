@@ -28,5 +28,3 @@ jobs:
         gitleaks detect --redact
       env:
         GL_CONFIG: .gitleaks.toml  # Optional: Use a GitLeaks configuration file
-
-    # Add additional steps here if needed, such as sending notifications or taking actions based on the scan results.
